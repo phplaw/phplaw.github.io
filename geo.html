@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPzv4gdg-ZMYHVchf7BN4oSpO1UE4RU_Y"></script>
+    <style>
+    #map {
+  max-width: 550px;
+  height: 400px;
+  margin: 0 auto;
+}
+</style>
+</head>
+<body>
+    <div id="map"></div>
+<div id="log"></div>
+
+<script>
+    var options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+/*
+        function success(pos) {
+            var crd = pos.coords;
+
+            console.log('Your current position is:');
+            console.log(`Latitude : ${crd.latitude}`);
+            console.log(`Longitude: ${crd.longitude}`);
+            console.log(`More or less ${crd.accuracy} meters.`);
+        }
+
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error, options);
+        */
+        function getCurrentPosition() {
+            return new Promise(function(resolve, reject) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    resolve({
+                        long: pos.coords.longitude,
+                        lat: pos.coords.latitude
+                    });
+
+                }, reject, options);
+            });
+        }
+
+
+    ///
+    // Standard google maps function
+    function initialize() {
+        var myLatlng = new google.maps.LatLng(40.779502, -73.967857);
+        var myOptions = {
+            zoom: 16 /*12*/,
+            center: myLatlng
+            ,mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+        TestMarker();
+    }
+
+    // Function for adding a marker to the page.
+    function addMarker(location) {
+        marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+    }
+
+    // Testing the addMarker function
+    function TestMarker() {
+           CentralPark = new google.maps.LatLng(37.7699298, -122.4469157);
+           addMarker(CentralPark);
+    }
+    //initialize();
+    getCurrentPosition().then(function(position) {
+        var myLatlng = new google.maps.LatLng(position.lat, position.long);
+        var myOptions = {
+            zoom: 12,
+            center: myLatlng
+            ,mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(document.getElementById("map"), myOptions);
+        var CurrentMakerPos  = new google.maps.LatLng(position.lat, position.long);
+        new google.maps.Marker({
+            position: CurrentMakerPos,
+            map: map
+        });
+    });
+    /// ENDDDDDD
+    function _log(message) {
+        var logElement =document.getElementById('log');
+        message = message +'<br>' + logElement.innerHTML;
+        logElement.innerHTML = message;
+    }
+
+/*
+    var id, target, options;
+
+    function success(pos) {
+        var crd = pos.coords;
+
+        _log('crd.latitude: ' + crd.latitude +', crd.longitude: '+ crd.longitude);
+
+        if (target.latitude === crd.latitude && target.longitude === crd.longitude) {
+            console.log('Congratulations, you reached the target');
+            navigator.geolocation.clearWatch(id);
+        }
+    }
+
+    function error(err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
+    }
+
+    target = {
+        latitude : 0,
+        longitude: 0
+    };
+
+    options = {
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    id = navigator.geolocation.watchPosition(success, error, options);
+    */
+</script>
+
+</body>
+</html>
