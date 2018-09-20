@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Demo GPS</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.24/gmaps.min.js?key=AIzaSyAPzv4gdg-ZMYHVchf7BN4oSpO1UE4RU_Y"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPzv4gdg-ZMYHVchf7BN4oSpO1UE4RU_Y"></script>
     <style>
     .container {
   max-width: 980px;
@@ -98,6 +98,27 @@ if (!navigator.geolocation) {
 
 } else {
 
+    function initMap(location) {
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 14, center: location});
+  //var marker = new google.maps.Marker({position: location, map: map});
+  var currentPositionMarker = new google.maps.Marker({position: location, map: map});
+
+  navigator.geolocation.watchPosition(
+    function (position) {
+        setMarkerPosition(
+            currentPositionMarker,
+            position
+        );
+    });
+
+    function setMarkerPosition(marker, position) {
+        marker.setPosition(
+            new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+        );
+    }
+}
+
   findMeButton.on('click', function(e) {
 
     e.preventDefault();
@@ -113,19 +134,8 @@ if (!navigator.geolocation) {
       $('.coordinates').addClass('visible');
 
       // Create a new map and place a marker at the device location.
-      var map = new GMaps({
-        el: '#map',
-        lat: lat,
-        lng: lng
-      });
-
-      map.addMarker({
-        lat: lat,
-        lng: lng
-      });
-
+      initMap({ lat: lat, lng: lng });
     });
-
   });
 
 }
