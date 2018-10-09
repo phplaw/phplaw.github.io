@@ -9,30 +9,25 @@
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyAPzv4gdg-ZMYHVchf7BN4oSpO1UE4RU_Y"></script>
     <script src="//www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
     <style>
-        body { margin: 0; padding: 0}
+        body { margin: 0; padding: 10px}
 
-h1 {
-  margin-bottom: 20px;
-}
+h1, p { margin: 0 0 10px }
 
 .coordinates {
   font-size: 18px;
-  opacity: 0;
-  margin-bottom: 40px;
+  display: none
 }
 
 .no-browser-support {
   font-size: 18px;
-  opacity: 0;
+  display: none;
 }
 
 .coordinates b:first-child {
   margin-right: 15px;
 }
 
-.visible {
-  opacity: 1;
-}
+.visible { display: block }
 
 .map-overlay {
   /* max-width: 600px;
@@ -50,7 +45,6 @@ h1 {
   height: 500px;
   margin: 0 auto;
 }
-
 </style>
 </head>
 <body>
