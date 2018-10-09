@@ -9,27 +9,10 @@
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyAPzv4gdg-ZMYHVchf7BN4oSpO1UE4RU_Y"></script>
     <script src="//www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
     <style>
-    .container {
-  max-width: 980px;
-  text-align: center;
-  margin: 20px auto;
-}
+        body { margin: 0; padding: 0}
 
 h1 {
   margin-bottom: 20px;
-}
-
-#geocoding_form {
-  margin: 40px auto 40px;
-}
-
-.input-group {
-  margin-left: 4%;
-}
-
-.find-me.btn:focus {
-  border-color: transparent;
-  outline: 0;
 }
 
 .coordinates {
@@ -52,8 +35,8 @@ h1 {
 }
 
 .map-overlay {
-  max-width: 600px;
-  height: 400px;
+  /* max-width: 600px;
+  height: 400px; */
   margin: 0 auto;
   background-color: #fff;
   position: relative;
@@ -61,8 +44,10 @@ h1 {
 }
 
 #map {
-  max-width: 550px;
-  height: 400px;
+  /* max-width: 550px;
+  height: 400px; */
+  width: 100%;
+  height: 500px;
   margin: 0 auto;
 }
 
@@ -70,23 +55,11 @@ h1 {
 </head>
 <body>
     <h1>Geolocation Demo</h1>
-
-    <form id="geocoding_form" class="form-horizontal">
-      <div class="form-group">
-        <div class="col-xs-12 col-md-6 col-md-offset-3">
-          <button type="button" class="find-me btn btn-info btn-block">Find My Location</button>
-        </div>
-      </div>
-    </form>
-
     <p class="no-browser-support">Sorry, the Geolocation API isn't supported in Your browser.</p>
     <p class="coordinates">Latitude: <b class="latitude">42</b> Longitude: <b class="longitude">32</b></p>
-
     <div class="map-overlay">
       <div id="map"></div>
     </div>
-
-  </div>
 
   <script>
       // initial for firebase
@@ -101,13 +74,8 @@ h1 {
     messagingSenderId: "891439944016"
   };
   firebase.initializeApp(config);
-
-  var findMeButton = $('.find-me');
-
 // Check if the browser has support for the Geolocation API
 if (!navigator.geolocation) {
-
-  findMeButton.addClass("disabled");
   $('.no-browser-support').addClass("visible");
 
 } else {
@@ -132,8 +100,6 @@ if (!navigator.geolocation) {
                 );
             }
     }
-
-  findMeButton.on('click', function(e) { e.preventDefault(); });
 
   function initMyLocation() {
     navigator.geolocation.getCurrentPosition(function(position) {
